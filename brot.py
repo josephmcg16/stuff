@@ -2,6 +2,8 @@ import numpy as np
 from pyDOE import lhs
 from tqdm import tqdm
 
+import plotly.graph_objs as go
+
 np.seterr(all='raise')
 np.random.seed(123)
 
@@ -30,7 +32,8 @@ class Brot:
 
     def _generate_points(self):
         reals, imags = lhs(2, samples=self.n_points).T
-        reals = reals * (2 + 1/4) - 2  # add doe bounds as an attribute?
+        reals = reals * (2 + 1.25) - 2  # add doe bounds as an attribute?
+        imags = imags * 2 - 1
         return reals, imags
 
     def _generate_brot_set(self):
@@ -46,3 +49,8 @@ if __name__ == '__main__':
     brot = Brot(n_points=100_000)
     np.save("data/full_set.npy", brot.full_set)
     np.save("data/brot_set.npy", brot.brot_set)
+
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(
+        x=brot.brot_set[:, 0], y=brot.brot_set[:, 1], mode='markers'))
+    fig.write_html("figures/brot_set.html")
