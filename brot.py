@@ -53,4 +53,4 @@ if __name__ == '__main__':
     fig = go.Figure()
     fig.add_trace(go.Scatter(
         x=brot.brot_set[:, 0], y=brot.brot_set[:, 1], mode='markers'))
-    fig.write_html("figures/brot_set.html")
+    fig.write_image("figures/brot_set.png")
